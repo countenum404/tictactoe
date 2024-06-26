@@ -17,7 +17,7 @@ func (b *Board) Init() {
 }
 
 func (b *Board) Print() {
-	for i := 0; i < len(b.board); i++ {
+	for i := 0; i < b.Size; i++ {
 		fmt.Println(b.board[i])
 	}
 }
@@ -37,7 +37,7 @@ func (b *Board) GetCell(x int, y int) string {
 
 func (b *Board) CheckWinnerIs(s string) bool {
 	// check lines
-	counter, target, length := 0, 3, len(b.board)
+	counter, target, length := 0, 3, b.Size
 	for i := 0; i < length; i++ {
 		for j := 0; j < length; j++ {
 			if b.board[i][j] == s {
