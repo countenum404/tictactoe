@@ -3,10 +3,12 @@ package board
 import "fmt"
 
 type Board struct {
+	Size  int
 	board [][]string
 }
 
 func (b *Board) Init() {
+	b.Size = 3
 	b.board = [][]string{
 		{"_", "_", "_"},
 		{"_", "_", "_"},
@@ -27,6 +29,10 @@ func (b *Board) SetCell(x int, y int, v string) {
 	} else {
 		fmt.Println(x, y, "values isn't valid")
 	}
+}
+
+func (b *Board) GetCell(x int, y int) string {
+	return b.board[x][y]
 }
 
 func (b *Board) CheckWinnerIs(s string) bool {
