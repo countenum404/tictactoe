@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"shabashov/tic-tac-toe/board"
+	"shabashov/tic-tac-toe/internal/board"
 )
 
 /*
@@ -26,15 +26,16 @@ func main() {
 		fmt.Scan(&x1, &y1)
 		board.SetCell(x1, y1, player1)
 
+		if board.CheckWinnerIs(player1) {
+			println("player1 is WINNER!!!")
+			break
+		}
+
 		board.Print()
 		fmt.Println("Try", player2)
 		fmt.Scan(&x2, &y2)
 		board.SetCell(x2, y2, player2)
 
-		if board.CheckWinnerIs(player1) {
-			println("player1 is WINNER!!!")
-			break
-		}
 		if board.CheckWinnerIs(player2) {
 			println("player2 is WINNER!!!")
 			break
