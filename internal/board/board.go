@@ -1,15 +1,18 @@
 package board
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Board struct {
 	Size  int
-	board [][]string
+	Board [][]string
 }
 
 func (b *Board) Init() {
 	b.Size = 3
-	b.board = [][]string{
+	b.Board = [][]string{
 		{"_", "_", "_"},
 		{"_", "_", "_"},
 		{"_", "_", "_"},
@@ -18,21 +21,22 @@ func (b *Board) Init() {
 
 func (b *Board) Print() {
 	for i := 0; i < b.Size; i++ {
-		fmt.Println(b.board[i])
+		fmt.Println(b.Board[i])
 	}
 }
 
-func (b *Board) SetCell(x int, y int, v string) {
-	value := &b.board[x][y]
+func (b *Board) SetCell(x int, y int, v string) error {
+	value := &b.Board[x][y]
 	if *value == "_" {
 		*value = v
 	} else {
-		fmt.Println(x, y, "values isn't valid")
+		return errors.New("Invalid values")
 	}
+	return nil
 }
 
 func (b *Board) GetCell(x int, y int) string {
-	return b.board[x][y]
+	return b.Board[x][y]
 }
 
 func (b *Board) CheckWinnerIs(s string) bool {
@@ -40,7 +44,7 @@ func (b *Board) CheckWinnerIs(s string) bool {
 	counter, target, length := 0, 3, b.Size
 	for i := 0; i < length; i++ {
 		for j := 0; j < length; j++ {
-			if b.board[i][j] == s {
+			if b.Board[i][j] == s {
 				counter++
 			}
 		}
@@ -53,7 +57,7 @@ func (b *Board) CheckWinnerIs(s string) bool {
 	counter = 0
 	for i := 0; i < length; i++ {
 		for j := 0; j < length; j++ {
-			if b.board[j][i] == s {
+			if b.Board[j][i] == s {
 				counter++
 			}
 		}
@@ -66,7 +70,7 @@ func (b *Board) CheckWinnerIs(s string) bool {
 	// check diagonals +
 	counter = 0
 	for i := 0; i < length; i++ {
-		if b.board[i][i] == s {
+		if b.Board[i][i] == s {
 			counter++
 		}
 		if counter == target {
@@ -76,7 +80,7 @@ func (b *Board) CheckWinnerIs(s string) bool {
 	// check diagonals
 	counter = 0
 	for i := 0; i < length; i++ {
-		if b.board[i][length-i-1] == s {
+		if b.Board[i][length-i-1] == s {
 			counter++
 		}
 		if counter == target {
