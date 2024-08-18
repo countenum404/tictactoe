@@ -44,9 +44,19 @@ func (t *TcpServer) Run(port string) {
 	}
 }
 
-func (t *TcpServer) addMessage(m Message, conn net.Conn) {
+var lastPlayerMove net.Conn
+
+func (t *TcpServer) handleMessage(m Message, conn net.Conn) {
+
+	if lastPlayerMove == conn {
+		return
+	}
+
+	lastPlayerMove = conn
+
 	if err := t.b.SetCell(m.X, m.Y, m.Player.Mark); err != nil {
 		log.Println(err)
+		return
 	}
 
 	wg := sync.WaitGroup{}
@@ -73,7 +83,7 @@ func (t *TcpServer) HandleConnection(conn net.Conn) {
 			conn.Close()
 			break
 		} else {
-			t.addMessage(msg, conn)
+			t.handleMessage(msg, conn)
 		}
 	}
 }
